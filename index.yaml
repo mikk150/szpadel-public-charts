@@ -1,0 +1,23 @@
+apiVersion: v1
+entries:
+  repman:
+  - apiVersion: v2
+    appVersion: 1.2.0-dev
+    created: "2021-01-14T16:43:46.501566871+01:00"
+    dependencies:
+    - condition: config.minio.enabled
+      name: minio
+      repository: https://helm.min.io/
+      version: 8.0.9
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.2.1
+    description: 'Repman - PHP Repository Manager: packagist proxy and host for private
+      packages'
+    digest: 6070d40ad5048650c08ac6e5aec6452ba06dc6d374daec9a3a023bd15471279c
+    name: repman
+    type: application
+    urls:
+    - https://szpadel.github.io/public-charts/releases/repman-1.0.0.tgz
+    version: 1.0.0
+generated: "2021-01-14T16:43:46.468534268+01:00"

@@ -8,4 +8,4 @@ fi
 
 helm3 package charts/$1 -d releases/
 
-helm3 repo index --merge index.yaml
+helm3 repo index --merge index.yaml --url https://szpadel.github.io/public-charts/ .
