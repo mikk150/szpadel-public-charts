@@ -17,3 +17,6 @@ dependencies:
 maintainers:
   - name: Szpadel
     email: piotrekrogowski@gmail.com
+sources:
+  - https://github.com/Szpadel/public-charts/tree/master/charts/repman
+  - https://github.com/repman-io/repman
