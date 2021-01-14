@@ -3,7 +3,7 @@ entries:
   repman:
   - apiVersion: v2
     appVersion: 1.2.0-dev
-    created: "2021-01-14T16:43:46.501566871+01:00"
+    created: "2021-01-14T16:54:35.751371973+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -14,10 +14,13 @@ entries:
       version: 10.2.1
     description: 'Repman - PHP Repository Manager: packagist proxy and host for private
       packages'
-    digest: 6070d40ad5048650c08ac6e5aec6452ba06dc6d374daec9a3a023bd15471279c
+    digest: 91dbc0695c99f6f0b358bdee1c461d700419178762b04e763bc47212307f3964
+    maintainers:
+    - email: piotrekrogowski@gmail.com
+      name: Szpadel
     name: repman
     type: application
     urls:
     - https://szpadel.github.io/public-charts/releases/repman-1.0.0.tgz
     version: 1.0.0
-generated: "2021-01-14T16:43:46.468534268+01:00"
+generated: "2021-01-14T16:54:35.735523423+01:00"

@@ -12,3 +12,6 @@ dependencies:
   - name: postgresql
     version: 10.2.1
     repository: https://charts.bitnami.com/bitnami
+maintainers:
+  - name: Szpadel
+    email: piotrekrogowski@gmail.com
