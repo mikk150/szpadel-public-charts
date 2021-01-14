@@ -1,0 +1,81 @@
+{{- if .Values.createAdmin.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "repman.fullname" . }}-create-admin
+  labels:
+    {{- include "repman.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  parallelism: 1
+  template:
+    metadata:
+      name: {{ include "repman.fullname" . }}-create-admin
+      labels:
+        {{- include "repman.labels" . | nindent 8 }}
+    spec:
+      restartPolicy: OnFailure
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-repman
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.repman.image.repository }}:{{ .Values.repman.image.tag | default .Chart.AppVersion }}"
+          command: [ 'bin/console', 'repman:create:admin', '-n', {{ .Values.createAdmin.email | quote }}, {{ .Values.createAdmin.password | quote }} ]
+          imagePullPolicy: {{ .Values.repman.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "repman.fullname" . }}-general
+            - prefix: MAILER_
+              secretRef:
+                {{- if .Values.config.mailer.existingSecret }}
+                name: {{ .Values.config.mailer.existingSecret | quote }}
+                {{- else }}
+                name: {{ include "repman.fullname" . }}-mailer
+                {{- end }}
+            - prefix: OAUTH_
+              secretRef:
+                {{- if .Values.config.oauth.existingSecret }}
+                name: {{ .Values.config.oauth.existingSecret | quote }}
+                {{- else }}
+                name: {{ include "repman.fullname" . }}-oauth
+                {{- end }}
+            - prefix: STORAGE_AWS_
+              secretRef:
+                {{- if ( and .Values.config.externalS3.existingSecret .Values.config.externalS3.enabled) }}
+                name: {{ .Values.config.externalS3.existingSecret | quote }}
+                {{- else }}
+                name: {{ include "repman.fullname" . }}-s3
+                {{- end }}
+          volumeMounts:
+            - name: files
+              mountPath: /app/config/services_prod.yaml
+              subPath: services_prod_yaml
+              readOnly: true
+          resources:
+            {{- toYaml .Values.repman.resources | nindent 12 }}
+      volumes:
+        - name: files
+          configMap:
+            name: {{ include "repman.fullname" . }}-files
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

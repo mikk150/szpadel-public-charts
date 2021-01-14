@@ -1,0 +1,169 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "repman.fullname" . }}
+  labels:
+    {{- include "repman.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.repman.autoscaling.enabled }}
+  replicas: {{ .Values.repman.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "repman.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "repman.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: {{ .Chart.Name }}-copy-public
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.repman.image.repository }}:{{ .Values.repman.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.repman.image.pullPolicy }}
+          command: [ 'sh', '-c', 'cp -R /app/public /mnt' ]
+          volumeMounts:
+            - name: public
+              mountPath: /mnt/public
+          resources:
+            {{- toYaml .Values.repman.resources | nindent 12 }}
+        - name: {{ .Chart.Name }}-setup
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.repman.image.repository }}:{{ .Values.repman.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.repman.image.pullPolicy }}
+          command:
+            - sh
+            - "-c"
+            - |
+              env &&
+              bin/console d:m:m --no-interaction &&
+              bin/console messenger:setup-transports --no-interaction &&
+              bin/console repman:security:update-db &&
+              bin/console assets:install
+          envFrom:
+            - configMapRef:
+                name: {{ include "repman.fullname" . }}-general
+            - prefix: MAILER_
+              secretRef:
+                {{- if .Values.config.mailer.existingSecret }}
+                name: {{ .Values.config.mailer.existingSecret | quote }}
+                {{- else }}
+                name: {{ include "repman.fullname" . }}-mailer
+                {{- end }}
+            - prefix: OAUTH_
+              secretRef:
+                {{- if .Values.config.oauth.existingSecret }}
+                name: {{ .Values.config.oauth.existingSecret | quote }}
+                {{- else }}
+                name: {{ include "repman.fullname" . }}-oauth
+                {{- end }}
+            - prefix: STORAGE_AWS_
+              secretRef:
+                {{- if ( and .Values.config.externalS3.existingSecret .Values.config.externalS3.enabled) }}
+                name: {{ .Values.config.externalS3.existingSecret | quote }}
+                {{- else }}
+                name: {{ include "repman.fullname" . }}-s3
+                {{- end }}
+          volumeMounts:
+            - name: files
+              mountPath: /app/config/services_prod.yaml
+              subPath: services_prod_yaml
+              readOnly: true
+            - name: public
+              mountPath: /app/public
+          resources:
+            {{- toYaml .Values.repman.resources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}-repman
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.repman.image.repository }}:{{ .Values.repman.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.repman.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "repman.fullname" . }}-general
+            - prefix: MAILER_
+              secretRef:
+                {{- if .Values.config.mailer.existingSecret }}
+                name: {{ .Values.config.mailer.existingSecret | quote }}
+                {{- else }}
+                name: {{ include "repman.fullname" . }}-mailer
+                {{- end }}
+            - prefix: OAUTH_
+              secretRef:
+                {{- if .Values.config.oauth.existingSecret }}
+                name: {{ .Values.config.oauth.existingSecret | quote }}
+                {{- else }}
+                name: {{ include "repman.fullname" . }}-oauth
+                {{- end }}
+            - prefix: STORAGE_AWS_
+              secretRef:
+                {{- if ( and .Values.config.externalS3.existingSecret .Values.config.externalS3.enabled) }}
+                name: {{ .Values.config.externalS3.existingSecret | quote }}
+                {{- else }}
+                name: {{ include "repman.fullname" . }}-s3
+                {{- end }}
+          volumeMounts:
+            - name: files
+              mountPath: /app/config/services_prod.yaml
+              subPath: services_prod_yaml
+              readOnly: true
+          resources:
+            {{- toYaml .Values.repman.resources | nindent 12 }}
+        - name: {{ .Chart.Name }}-nginx
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}"
+          imagePullPolicy: {{ .Values.nginx.image.pullPolicy }}
+          volumeMounts:
+            - name: files
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx_conf
+              readOnly: true
+            - name: public
+              mountPath: /app/public
+              readOnly: true
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.nginx.resources | nindent 12 }}
+      volumes:
+        - name: files
+          configMap:
+            name: {{ include "repman.fullname" . }}-files
+        - name: public
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

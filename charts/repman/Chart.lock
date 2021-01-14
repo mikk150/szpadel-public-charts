@@ -1,0 +1,9 @@
+dependencies:
+- name: minio
+  repository: https://helm.min.io/
+  version: 8.0.9
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.2.1
+digest: sha256:e58e13f9cca5a39b8da00188c59b0693bfde19b60a504c70ed915ee8efef3d34
+generated: "2021-01-13T20:47:03.36612029+01:00"

@@ -1,0 +1,28 @@
+{{- if .Values.repman.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "repman.fullname" . }}
+  labels:
+    {{- include "repman.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "repman.fullname" . }}
+  minReplicas: {{ .Values.repman.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.repman.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.repman.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.repman.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.repman.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.repman.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

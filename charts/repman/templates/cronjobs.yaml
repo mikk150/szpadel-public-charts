@@ -1,0 +1,88 @@
+{{- range .Values.cronJobs.tasks }}
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "repman.fullname" $ }}-{{ .name }}
+  labels:
+    {{- include "repman.labels" $ | nindent 4 }}
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  schedule: {{ .schedule | quote }}
+  jobTemplate:
+    metadata:
+      name: {{ include "repman.fullname" $ }}-{{ .name }}
+      labels:
+        {{- include "repman.labels" $ | nindent 8 }}
+    spec:
+      parallelism: 1
+      template:
+        metadata:
+          name: {{ include "repman.fullname" $ }}-{{ .name }}
+          labels:
+            {{- include "repman.labels" $ | nindent 12 }}
+        spec:
+          restartPolicy: Never
+          {{- with $.Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml $ | nindent 12 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml $.Values.podSecurityContext | nindent 12 }}
+          containers:
+          - name: {{ $.Chart.Name }}
+            securityContext:
+              {{- toYaml $.Values.securityContext | nindent 14 }}
+            image: "{{ $.Values.repman.image.repository }}:{{ $.Values.repman.image.tag | default $.Chart.AppVersion }}"
+            imagePullPolicy: {{ $.Values.repman.image.pullPolicy }}
+            command: [ '/app/bin/console', {{ .command | quote }} ]
+            volumeMounts:
+              - name: files
+                mountPath: /app/config/services_prod.yaml
+                subPath: services_prod_yaml
+                readOnly: true
+            envFrom:
+              - configMapRef:
+                  name: {{ include "repman.fullname" $ }}-general
+              - prefix: MAILER_
+                secretRef:
+                  {{- if $.Values.config.mailer.existingSecret }}
+                  name: {{ $.Values.config.mailer.existingSecret | quote }}
+                  {{- else }}
+                  name: {{ include "repman.fullname" $ }}-mailer
+                  {{- end }}
+              - prefix: OAUTH_
+                secretRef:
+                  {{- if $.Values.config.oauth.existingSecret }}
+                  name: {{ $.Values.config.oauth.existingSecret | quote }}
+                  {{- else }}
+                  name: {{ include "repman.fullname" $ }}-oauth
+                  {{- end }}
+              - prefix: STORAGE_AWS_
+                secretRef:
+                  {{- if ( and $.Values.config.externalS3.existingSecret $.Values.config.externalS3.enabled) }}
+                  name: {{ $.Values.config.externalS3.existingSecret | quote }}
+                  {{- else }}
+                  name: {{ include "repman.fullname" $ }}-s3
+                  {{- end }}
+            resources:
+              {{- toYaml $.Values.cronJobs.resources | nindent 14 }}
+          volumes:
+          - name: files
+            configMap:
+              name: {{ include "repman.fullname" $ }}-files
+          {{- with $.Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $.Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $.Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+{{- end }}
