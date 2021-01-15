@@ -3,22 +3,24 @@ kind: Deployment
 metadata:
   name: {{ include "repman.fullname" . }}
   labels:
-    {{- include "repman.labels" . | nindent 4 }}
+    {{- include "repman.www.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.repman.autoscaling.enabled }}
   replicas: {{ .Values.repman.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "repman.selectorLabels" . | nindent 6 }}
+      {{- include "repman.www.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+      {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
+        checksum/config_files: {{ include (print $.Template.BasePath "/configmap_files.yaml") . | sha256sum }}
+        checksum/config_general: {{ include (print $.Template.BasePath "/configmap_general.yaml") . | sha256sum }}
       labels:
-        {{- include "repman.selectorLabels" . | nindent 8 }}
+        {{- include "repman.www.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -50,7 +52,6 @@ spec:
               env &&
               bin/console d:m:m --no-interaction &&
               bin/console messenger:setup-transports --no-interaction &&
-              bin/console repman:security:update-db &&
               bin/console assets:install
           envFrom:
             - configMapRef:
@@ -80,6 +81,10 @@ spec:
             - name: files
               mountPath: /app/config/services_prod.yaml
               subPath: services_prod_yaml
+              readOnly: true
+            - name: files
+              mountPath: /app/src/Migrations/Version20210115094614.php
+              subPath: Version20210115094614_php
               readOnly: true
             - name: public
               mountPath: /app/public
@@ -140,12 +145,13 @@ spec:
               containerPort: 80
               protocol: TCP
           livenessProbe:
+            timeoutSeconds: 10
             httpGet:
-              path: /
+              path: /login
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /login
               port: http
           resources:
             {{- toYaml .Values.nginx.resources | nindent 12 }}

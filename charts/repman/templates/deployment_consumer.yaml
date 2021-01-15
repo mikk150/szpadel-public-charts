@@ -3,22 +3,24 @@ kind: Deployment
 metadata:
   name: {{ include "repman.fullname" . }}-consumer
   labels:
-    {{- include "repman.labels" . | nindent 4 }}
+    {{- include "repman.consumer.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.consumer.autoscaling.enabled }}
   replicas: {{ .Values.consumer.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "repman.selectorLabels" . | nindent 6 }}
+      {{- include "repman.consumer.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+      {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
+        checksum/config_files: {{ include (print $.Template.BasePath "/configmap_files.yaml") . | sha256sum }}
+        checksum/config_general: {{ include (print $.Template.BasePath "/configmap_general.yaml") . | sha256sum }}
       labels:
-        {{- include "repman.selectorLabels" . | nindent 8 }}
+        {{- include "repman.consumer.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

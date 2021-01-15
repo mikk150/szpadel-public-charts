@@ -3,14 +3,13 @@ kind: Service
 metadata:
   name: {{ include "repman.fullname" . }}
   labels:
-    {{- include "repman.labels" . | nindent 4 }}
+    {{- include "repman.www.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
-  sessionAffinity: "ClientIP"
   ports:
     - port: {{ .Values.service.port }}
       targetPort: http
       protocol: TCP
       name: http
   selector:
-    {{- include "repman.selectorLabels" . | nindent 4 }}
+    {{- include "repman.www.selectorLabels" . | nindent 4 }}

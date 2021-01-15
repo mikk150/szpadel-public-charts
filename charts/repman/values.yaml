@@ -22,8 +22,8 @@ repman:
     enabled: false
     minReplicas: 1
     maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
+    # targetCPU: 80
+    # targetMemoryPercentage: 80
 
 consumer:
   resources: {}
@@ -39,8 +39,8 @@ consumer:
     enabled: false
     minReplicas: 1
     maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
+    # targetCPU: 80
+    # targetMemoryPercentage: 80
 
 nginx:
   image:

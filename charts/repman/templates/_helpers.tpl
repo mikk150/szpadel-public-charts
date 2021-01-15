@@ -49,3 +49,46 @@ Selector labels
 app.kubernetes.io/name: {{ include "repman.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+
+{{/*
+WWW labels
+*/}}
+{{- define "repman.www.labels" -}}
+helm.sh/chart: {{ include "repman.chart" . }}
+{{ include "repman.www.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+WWW Selector labels
+*/}}
+{{- define "repman.www.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "repman.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+role: www
+{{- end }}
+
+{{/*
+consumer labels
+*/}}
+{{- define "repman.consumer.labels" -}}
+helm.sh/chart: {{ include "repman.chart" . }}
+{{ include "repman.consumer.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+consumer Selector labels
+*/}}
+{{- define "repman.consumer.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "repman.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+role: consumer
+{{- end }}
