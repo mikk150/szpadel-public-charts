@@ -7,7 +7,7 @@ repman:
     repository: buddy/repman
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "latest@sha256:3792eed3531a90e6ff4ee2dd20c6e3065f9b69cfccf305e544afaeaac1865da7"
+    tag: ""
 
   resources: {}
   # limits:

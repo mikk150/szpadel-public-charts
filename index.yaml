@@ -2,8 +2,33 @@ apiVersion: v1
 entries:
   repman:
   - apiVersion: v2
+    appVersion: 1.2.0
+    created: "2021-02-02T12:42:56.309347881+01:00"
+    dependencies:
+    - condition: config.minio.enabled
+      name: minio
+      repository: https://helm.min.io/
+      version: 8.0.9
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.2.1
+    description: 'Repman - PHP Repository Manager: packagist proxy and host for private
+      packages'
+    digest: 28a5c80b041477db38999fce6bd44335664be15871d3a382af6fdb45978dd592
+    maintainers:
+    - email: piotrekrogowski@gmail.com
+      name: Szpadel
+    name: repman
+    sources:
+    - https://github.com/Szpadel/public-charts/tree/master/charts/repman
+    - https://github.com/repman-io/repman
+    type: application
+    urls:
+    - https://szpadel.github.io/public-charts/releases/repman-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
     appVersion: 1.2.0-dev
-    created: "2021-01-15T13:18:44.863295303+01:00"
+    created: "2021-02-02T12:42:56.295687756+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -28,7 +53,7 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: 1.2.0-dev
-    created: "2021-01-15T13:18:44.836816588+01:00"
+    created: "2021-02-02T12:42:56.285499657+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -51,4 +76,4 @@ entries:
     urls:
     - https://szpadel.github.io/public-charts/releases/repman-1.0.0.tgz
     version: 1.0.0
-generated: "2021-01-15T13:18:44.8135782+01:00"
+generated: "2021-02-02T12:42:56.275059291+01:00"
