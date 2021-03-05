@@ -34,7 +34,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.repman.image.repository }}:{{ .Values.repman.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.repman.image.pullPolicy }}
-          command: [ 'sh', '-c', 'cp -R /app/public /mnt' ]
+          command: [ 'sh', '-c', 'cp -Rf /app/public /mnt' ]
           volumeMounts:
             - name: public
               mountPath: /mnt/public
@@ -49,7 +49,6 @@ spec:
             - sh
             - "-c"
             - |
-              env &&
               bin/console d:m:m --no-interaction &&
               bin/console messenger:setup-transports --no-interaction &&
               bin/console assets:install
