@@ -182,3 +182,5 @@ postgresql:
     database: repman
     username: repman
     password: repman
+  image:
+    tag: 11.15.0-debian-10-r93

@@ -3,7 +3,32 @@ entries:
   repman:
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-05-12T14:02:00.342688926+02:00"
+    created: "2022-05-12T14:42:20.294198753+02:00"
+    dependencies:
+    - condition: config.minio.enabled
+      name: minio
+      repository: https://helm.min.io/
+      version: 8.0.10
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.28
+    description: 'Repman - PHP Repository Manager: packagist proxy and host for private
+      packages'
+    digest: 1457077582d0ed56e9aef615630bbcc2a305254a9baeb6ca3fda8b546fabff85
+    maintainers:
+    - email: piotrekrogowski@gmail.com
+      name: Szpadel
+    name: repman
+    sources:
+    - https://github.com/Szpadel/public-charts/tree/master/charts/repman
+    - https://github.com/repman-io/repman
+    type: application
+    urls:
+    - https://szpadel.github.io/public-charts/releases/repman-1.2.2.tgz
+    version: 1.2.2
+  - apiVersion: v2
+    appVersion: 1.4.0
+    created: "2022-05-12T14:42:20.288172972+02:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -28,7 +53,7 @@ entries:
     version: 1.2.1
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-05-12T14:02:00.338105174+02:00"
+    created: "2022-05-12T14:42:20.282399013+02:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -53,7 +78,7 @@ entries:
     version: 1.2.0
   - apiVersion: v2
     appVersion: 1.2.2
-    created: "2022-05-12T14:02:00.333334697+02:00"
+    created: "2022-05-12T14:42:20.277043336+02:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -78,7 +103,7 @@ entries:
     version: 1.1.3
   - apiVersion: v2
     appVersion: 1.2.1
-    created: "2022-05-12T14:02:00.329057086+02:00"
+    created: "2022-05-12T14:42:20.272082237+02:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -103,7 +128,7 @@ entries:
     version: 1.1.2
   - apiVersion: v2
     appVersion: 1.2.0
-    created: "2022-05-12T14:02:00.324424253+02:00"
+    created: "2022-05-12T14:42:20.267614009+02:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -128,7 +153,7 @@ entries:
     version: 1.1.1
   - apiVersion: v2
     appVersion: 1.2.0-dev
-    created: "2022-05-12T14:02:00.320096707+02:00"
+    created: "2022-05-12T14:42:20.261847748+02:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -153,7 +178,7 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: 1.2.0-dev
-    created: "2022-05-12T14:02:00.31637655+02:00"
+    created: "2022-05-12T14:42:20.25742561+02:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -176,4 +201,4 @@ entries:
     urls:
     - https://szpadel.github.io/public-charts/releases/repman-1.0.0.tgz
     version: 1.0.0
-generated: "2022-05-12T14:02:00.31048403+02:00"
+generated: "2022-05-12T14:42:20.251976844+02:00"
