@@ -3,7 +3,7 @@ name: repman
 homeURL: https://repman.io
 description: "Repman - PHP Repository Manager: packagist proxy and host for private packages"
 type: application
-version: 1.2.0
+version: 1.2.1
 appVersion: 1.4.0
 prerelease: true
 dependencies:

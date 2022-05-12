@@ -178,6 +178,7 @@ minio:
   persistence:
     size: 50Gi
 postgresql:
-  postgresqlDatabase: repman
-  postgresqlUsername: repman
-  postgresqlPassword: repman
+  auth:
+    database: repman
+    username: repman
+    password: repman
