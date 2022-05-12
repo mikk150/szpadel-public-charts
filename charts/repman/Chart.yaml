@@ -3,16 +3,16 @@ name: repman
 homeURL: https://repman.io
 description: "Repman - PHP Repository Manager: packagist proxy and host for private packages"
 type: application
-version: 1.1.3
-appVersion: 1.2.2
+version: 1.2.0
+appVersion: 1.4.0
 prerelease: true
 dependencies:
   - name: minio
-    version: 8.0.9
+    version: 8.0.10
     repository: https://helm.min.io/
     condition: config.minio.enabled
   - name: postgresql
-    version: 10.2.1
+    version: 11.1.28
     repository: https://charts.bitnami.com/bitnami
 maintainers:
   - name: Szpadel

@@ -46,7 +46,7 @@ nginx:
   image:
     repository: nginx
     pullPolicy: IfNotPresent
-    tag: "1.19.6-alpine"
+    tag: "1.21.6-alpine"
   resources: {}
   # limits:
   #   cpu: 100m
