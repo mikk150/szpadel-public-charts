@@ -1,6 +1,6 @@
 {{- range .Values.cronJobs.tasks }}
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ include "repman.fullname" $ }}-{{ .name }}
@@ -43,6 +43,8 @@ spec:
                 mountPath: /app/config/services_prod.yaml
                 subPath: services_prod_yaml
                 readOnly: true
+            env:
+              {{- include "repman.database.credentials.env" $ | nindent 14 }}
             envFrom:
               - configMapRef:
                   name: {{ include "repman.fullname" $ }}-general

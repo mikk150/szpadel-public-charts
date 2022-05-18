@@ -1,0 +1,35 @@
+{{- if .Values.perconaOperator.enabled }}
+apiVersion: pg.percona.com/v1
+kind: PerconaPGCluster
+metadata:
+  labels:
+    pgo-version: {{ .Values.perconaOperator.version }}
+    {{- include "repman.labels" $ | nindent 4 }}
+  name: {{ include "repman.fullname" . }}-database
+spec:
+  database: {{ .Values.perconaDatabase.database }}
+  port: "5432"
+  user: {{ .Values.perconaDatabase.user }}
+  pgPrimary:
+    image: perconalab/percona-postgresql-operator:main-ppg14-postgres-ha
+    volumeSpec:
+      size: {{ .Values.perconaDatabase.size }}
+      accessmode: ReadWriteOnce
+      storagetype: ""
+  pgReplicas:
+    hotStandby:
+      size: 0
+  pgBouncer:
+    image: perconalab/percona-postgresql-operator:main-ppg14-pgbouncer
+    size: 1
+    expose:
+      serviceType: ClusterIP
+  backup:
+    image: perconalab/percona-postgresql-operator:main-ppg14-pgbackrest
+    backrestRepoImage: perconalab/percona-postgresql-operator:main-ppg14-pgbackrest-repo
+    volumeSpec:
+      size: 1G
+      accessmode: ReadWriteOnce
+      storagetype: dynamic
+      storageclass: ""
+{{- end }}

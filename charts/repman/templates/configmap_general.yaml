@@ -21,5 +21,4 @@ data:
   SECURITY_ADVISORIES_DB_DIR: var/security-advisories
   STORAGE_SOURCE: storage.s3
   STORAGE_AWS_OPAQUE_AUTH: "true"
-  DATABASE_URL: postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ include "repman.fullname" . }}-postgresql:5432/{{ .Values.postgresql.auth.database }}?serverVersion=11&charset=utf8
   TRUSTED_PROXIES: 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16

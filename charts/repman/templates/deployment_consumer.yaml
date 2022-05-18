@@ -35,6 +35,8 @@ spec:
           image: "{{ .Values.repman.image.repository }}:{{ .Values.repman.image.tag | default .Chart.AppVersion }}"
           command: [ 'bin/console', 'messenger:consume', 'async', '--limit=500', '-vv' ]
           imagePullPolicy: {{ .Values.repman.image.pullPolicy }}
+          env:
+            {{- include "repman.database.credentials.env" . | nindent 12 }}
           envFrom:
             - configMapRef:
                 name: {{ include "repman.fullname" . }}-general

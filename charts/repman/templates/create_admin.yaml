@@ -31,6 +31,8 @@ spec:
           image: "{{ .Values.repman.image.repository }}:{{ .Values.repman.image.tag | default .Chart.AppVersion }}"
           command: [ 'bin/console', 'repman:create:admin', '-n', {{ .Values.createAdmin.email | quote }}, {{ .Values.createAdmin.password | quote }} ]
           imagePullPolicy: {{ .Values.repman.image.pullPolicy }}
+          env:
+            {{- include "repman.database.credentials.env" . | nindent 12 }}
           envFrom:
             - configMapRef:
                 name: {{ include "repman.fullname" . }}-general

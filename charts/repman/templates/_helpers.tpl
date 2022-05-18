@@ -92,3 +92,43 @@ app.kubernetes.io/name: {{ include "repman.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 role: consumer
 {{- end }}
+
+
+{{/*
+posgresql database credentials*/}}
+{{- define "repman.database.credentials.env" -}}
+{{- if and .Values.bitnamiDatabase.enabled .Values.perconaOperator.enabled -}}
+{{ required "Exactly one of perconaOperator or bitnamiDatabase need to be enabled" "" }}
+{{- end -}}
+
+{{- if .Values.bitnamiDatabase.enabled }}
+- name: DATABASE_HOSTNAME
+  value: {{ include "repman.fullname" . }}-postgresql
+- name: DATABASE_USER
+  valueFrom:
+    secretKeyRef:
+      key: USER
+      name: {{ include "repman.fullname" . }}-database
+- name: DATABASE_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      key: PASSWORD
+      name: {{ include "repman.fullname" . }}-database
+- name: DATABASE_DATABASE
+  value: {{ .Values.postgresql.auth.database }}
+{{- else if .Values.perconaOperator.enabled -}}
+- name: DATABASE_HOSTNAME
+  value: {{ include "repman.fullname" . }}-database-pgbouncer
+- name: DATABASE_USER
+  value: {{ .Values.postgresql.auth.username }}
+- name: DATABASE_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "repman.fullname" . }}-database-users
+      key: {{ .Values.postgresql.auth.username }}
+- name: DATABASE_DATABASE
+  value: {{ .Values.postgresql.auth.database }}
+{{- else -}}
+{{ required "Exactly one of perconaOperator or bitnamiDatabase need to be enabled" }}
+{{- end -}}
+{{- end }}

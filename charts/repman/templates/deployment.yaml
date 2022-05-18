@@ -4,6 +4,8 @@ metadata:
   name: {{ include "repman.fullname" . }}
   labels:
     {{- include "repman.www.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
 spec:
   {{- if not .Values.repman.autoscaling.enabled }}
   replicas: {{ .Values.repman.replicaCount }}
@@ -52,6 +54,8 @@ spec:
               bin/console d:m:m --no-interaction &&
               bin/console messenger:setup-transports --no-interaction &&
               bin/console assets:install
+          env:
+            {{- include "repman.database.credentials.env" . | nindent 12 }}
           envFrom:
             - configMapRef:
                 name: {{ include "repman.fullname" . }}-general
@@ -95,6 +99,8 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.repman.image.repository }}:{{ .Values.repman.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.repman.image.pullPolicy }}
+          env:
+            {{- include "repman.database.credentials.env" . | nindent 12 }}
           envFrom:
             - configMapRef:
                 name: {{ include "repman.fullname" . }}-general

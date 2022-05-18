@@ -96,6 +96,16 @@ config:
     secret: ""
   minio:
     enabled: true
+perconaOperator:
+  enabled: false
+  version: 1.2.0
+perconaDatabase:
+  size: 10G
+  storageType: ""
+  user: repman
+  database: repman
+bitnamiDatabase:
+  enabled: true
 
 createAdmin:
   enabled: false
