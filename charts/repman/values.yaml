@@ -106,6 +106,14 @@ perconaDatabase:
   database: repman
 bitnamiDatabase:
   enabled: true
+externalDatabase:
+  enabled: false
+  hostname:
+  user:
+  database:
+  passwordSecret:
+    name:
+    key:
 
 createAdmin:
   enabled: false

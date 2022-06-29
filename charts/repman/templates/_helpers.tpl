@@ -97,7 +97,7 @@ role: consumer
 {{/*
 posgresql database credentials*/}}
 {{- define "repman.database.credentials.env" -}}
-{{- if and .Values.bitnamiDatabase.enabled .Values.perconaOperator.enabled -}}
+{{- if and .Values.bitnamiDatabase.enabled .Values.perconaOperator.enabled .Values.externalDatabase.enabled -}}
 {{ required "Exactly one of perconaOperator or bitnamiDatabase need to be enabled" "" }}
 {{- end -}}
 
@@ -128,6 +128,18 @@ posgresql database credentials*/}}
       key: {{ .Values.postgresql.auth.username }}
 - name: DATABASE_DATABASE
   value: {{ .Values.postgresql.auth.database }}
+{{- else if .Values.externalDatabase.enabled -}}
+- name: DATABASE_HOSTNAME
+  value: {{ .Values.externalDatabase.hostname }}
+- name: DATABASE_USER
+  value: {{ .Values.externalDatabase.user }}
+- name: DATABASE_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.externalDatabase.passwordSecret.name }}
+      key: {{ .Values.externalDatabase.passwordSecret.key }}
+- name: DATABASE_DATABASE
+  value: {{ .Values.externalDatabase.database }}
 {{- else -}}
 {{ required "Exactly one of perconaOperator or bitnamiDatabase need to be enabled" }}
 {{- end -}}
