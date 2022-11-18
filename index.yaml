@@ -3,7 +3,7 @@ entries:
   headscale:
   - apiVersion: v2
     appVersion: 0.16.4
-    created: "2022-08-22T15:31:50.143153486+02:00"
+    created: "2022-11-18T16:12:56.751534484+01:00"
     dependencies:
     - name: common
       repository: https://library-charts.k8s-at-home.com
@@ -20,7 +20,7 @@ entries:
     version: 0.1.4
   - apiVersion: v2
     appVersion: 0.16.2
-    created: "2022-08-22T15:31:50.14045705+02:00"
+    created: "2022-11-18T16:12:56.748799773+01:00"
     dependencies:
     - name: common
       repository: https://library-charts.k8s-at-home.com
@@ -38,7 +38,7 @@ entries:
   repman:
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-08-22T15:31:50.187674745+02:00"
+    created: "2022-11-18T16:12:56.795903342+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -64,7 +64,7 @@ entries:
     version: 2.1.0
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-08-22T15:31:50.18328921+02:00"
+    created: "2022-11-18T16:12:56.790050458+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -90,7 +90,7 @@ entries:
     version: 2.0.0
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-08-22T15:31:50.178398935+02:00"
+    created: "2022-11-18T16:12:56.785442333+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -115,7 +115,7 @@ entries:
     version: 1.2.2
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-08-22T15:31:50.173822546+02:00"
+    created: "2022-11-18T16:12:56.780341217+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -140,7 +140,7 @@ entries:
     version: 1.2.1
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-08-22T15:31:50.169475901+02:00"
+    created: "2022-11-18T16:12:56.775847473+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -165,7 +165,7 @@ entries:
     version: 1.2.0
   - apiVersion: v2
     appVersion: 1.2.2
-    created: "2022-08-22T15:31:50.164181161+02:00"
+    created: "2022-11-18T16:12:56.771108521+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -190,7 +190,7 @@ entries:
     version: 1.1.3
   - apiVersion: v2
     appVersion: 1.2.1
-    created: "2022-08-22T15:31:50.16001755+02:00"
+    created: "2022-11-18T16:12:56.767102639+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -215,7 +215,7 @@ entries:
     version: 1.1.2
   - apiVersion: v2
     appVersion: 1.2.0
-    created: "2022-08-22T15:31:50.155914393+02:00"
+    created: "2022-11-18T16:12:56.7634317+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -240,7 +240,7 @@ entries:
     version: 1.1.1
   - apiVersion: v2
     appVersion: 1.2.0-dev
-    created: "2022-08-22T15:31:50.151888157+02:00"
+    created: "2022-11-18T16:12:56.758984539+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -265,7 +265,7 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: 1.2.0-dev
-    created: "2022-08-22T15:31:50.147302305+02:00"
+    created: "2022-11-18T16:12:56.755053104+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -288,4 +288,33 @@ entries:
     urls:
     - https://szpadel.github.io/public-charts/releases/repman-1.0.0.tgz
     version: 1.0.0
-generated: "2022-08-22T15:31:50.137853416+02:00"
+  seafile:
+  - apiVersion: v2
+    appVersion: 9.0.9
+    created: "2022-11-18T16:12:56.808034978+01:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    - condition: mariadb.enabled
+      name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.4.0
+    - condition: memcached.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.3.1
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.5.2
+    description: Seafile is an open source file sync&share solution
+    digest: 04a64fb8ebbe92f72eb7475f8da5b46a15750200c9a201f2c61492f67dc3daf6
+    name: seafile
+    sources:
+    - https://github.com/haiwen/seafile
+    type: application
+    urls:
+    - https://szpadel.github.io/public-charts/releases/seafile-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-11-18T16:12:56.746520652+01:00"
