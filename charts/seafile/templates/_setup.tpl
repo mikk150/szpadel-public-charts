@@ -8,6 +8,5 @@
     {{- if eq .Values.image.repository "seafileltd/seafile-mc" -}}
         {{- $_ := set .Values.image "repository" "docker.seadrive.org/seafileltd/seafile-pro-mc" -}}
     {{- end -}}
-    {{- $_ := set .Values.elasticsearch "enabled" true -}}
 {{- end -}}
 {{- end -}}

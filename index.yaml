@@ -2,8 +2,25 @@ apiVersion: v1
 entries:
   headscale:
   - apiVersion: v2
+    appVersion: 0.17.1
+    created: "2022-12-16T15:03:26.494024751+01:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: An open source, self-hosted implementation of the Tailscale control
+      server
+    digest: a72c222bb833cd646e5d3721ccb5df00c01a09c90bffee13dfe818a84572c243
+    name: headscale
+    sources:
+    - https://github.com/juanfont/headscale
+    type: application
+    urls:
+    - https://szpadel.github.io/public-charts/releases/headscale-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 0.16.4
-    created: "2022-11-18T16:12:56.751534484+01:00"
+    created: "2022-12-16T15:03:26.488561181+01:00"
     dependencies:
     - name: common
       repository: https://library-charts.k8s-at-home.com
@@ -20,7 +37,7 @@ entries:
     version: 0.1.4
   - apiVersion: v2
     appVersion: 0.16.2
-    created: "2022-11-18T16:12:56.748799773+01:00"
+    created: "2022-12-16T15:03:26.481545937+01:00"
     dependencies:
     - name: common
       repository: https://library-charts.k8s-at-home.com
@@ -38,7 +55,7 @@ entries:
   repman:
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-11-18T16:12:56.795903342+01:00"
+    created: "2022-12-16T15:03:26.601346295+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -64,7 +81,7 @@ entries:
     version: 2.1.0
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-11-18T16:12:56.790050458+01:00"
+    created: "2022-12-16T15:03:26.589634217+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -90,7 +107,7 @@ entries:
     version: 2.0.0
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-11-18T16:12:56.785442333+01:00"
+    created: "2022-12-16T15:03:26.577961822+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -115,7 +132,7 @@ entries:
     version: 1.2.2
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-11-18T16:12:56.780341217+01:00"
+    created: "2022-12-16T15:03:26.567759804+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -140,7 +157,7 @@ entries:
     version: 1.2.1
   - apiVersion: v2
     appVersion: 1.4.0
-    created: "2022-11-18T16:12:56.775847473+01:00"
+    created: "2022-12-16T15:03:26.556433724+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -165,7 +182,7 @@ entries:
     version: 1.2.0
   - apiVersion: v2
     appVersion: 1.2.2
-    created: "2022-11-18T16:12:56.771108521+01:00"
+    created: "2022-12-16T15:03:26.544893748+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -190,7 +207,7 @@ entries:
     version: 1.1.3
   - apiVersion: v2
     appVersion: 1.2.1
-    created: "2022-11-18T16:12:56.767102639+01:00"
+    created: "2022-12-16T15:03:26.534531471+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -215,7 +232,7 @@ entries:
     version: 1.1.2
   - apiVersion: v2
     appVersion: 1.2.0
-    created: "2022-11-18T16:12:56.7634317+01:00"
+    created: "2022-12-16T15:03:26.525024652+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -240,7 +257,7 @@ entries:
     version: 1.1.1
   - apiVersion: v2
     appVersion: 1.2.0-dev
-    created: "2022-11-18T16:12:56.758984539+01:00"
+    created: "2022-12-16T15:03:26.514656394+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -265,7 +282,7 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: 1.2.0-dev
-    created: "2022-11-18T16:12:56.755053104+01:00"
+    created: "2022-12-16T15:03:26.505264384+01:00"
     dependencies:
     - condition: config.minio.enabled
       name: minio
@@ -291,7 +308,7 @@ entries:
   seafile:
   - apiVersion: v2
     appVersion: 9.0.9
-    created: "2022-11-18T16:12:56.808034978+01:00"
+    created: "2022-12-16T15:03:26.629723841+01:00"
     dependencies:
     - name: common
       repository: https://library-charts.k8s-at-home.com
@@ -317,4 +334,4 @@ entries:
     urls:
     - https://szpadel.github.io/public-charts/releases/seafile-0.1.0.tgz
     version: 0.1.0
-generated: "2022-11-18T16:12:56.746520652+01:00"
+generated: "2022-12-16T15:03:26.475154834+01:00"
