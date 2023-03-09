@@ -45,8 +45,6 @@ additionalControllers:
     enabled: false
     type: job
     annotations:
-      "helm.sh/hook": post-install
-      "helm.sh/hook-weight": "-5"
       "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     restartPolicy: OnFailure
     command: &install_command
@@ -236,6 +234,12 @@ persistence:
     type: configMap
     name: '{{ include "common.names.fullname" . }}-files'
     autoMount: false
+  php-overrides:
+    enabled: true
+    type: configMap
+    mountPath: /usr/local/etc/php/conf.d/php-overrides.ini
+    name: '{{ include "common.names.fullname" . }}-files'
+    subPath: php-overrides.ini
 
 phpConfig:
   opcache.memory_consumption: 256
@@ -244,9 +248,6 @@ phpConfig:
   opcache.validate_timestamps: 1
   date.timezone: Europe/Warsaw
   session.save_handler: redis
-  # FIXME:
-  session.save_path: "tcp://192.168.0.178:6379?auth=REDIS_PASSWORD"
-
 autoscaling:
   main:
     enabled: false
@@ -285,3 +286,8 @@ minio:
   defaultBuckets: repman
   persistence:
     size: 50Gi
+
+redis:
+  architecture: standalone
+  auth:
+    enabled: false

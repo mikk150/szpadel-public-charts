@@ -8,6 +8,7 @@ configmap:
     data:
       nginx.conf: {{ include "repman.nginx.config" . | quote }}
       services_prod_yaml: {{ include "repman.repman.config.services" . | quote }}
+      php-overrides.ini: {{ include "repman.repman.config.phpConfig" . | quote}}
 {{- end -}}
 
 {{- define "repman.names.postgresql" -}}

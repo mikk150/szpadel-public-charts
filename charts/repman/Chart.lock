@@ -5,5 +5,8 @@ dependencies:
 - name: common
   repository: https://szpadel.github.io/library-charts
   version: 0.2.0
-digest: sha256:26de64cf967dff759d763fb9c1c6a6ee36084f9b94ae550b6557a5dd0ad0c400
-generated: "2023-03-09T11:38:28.302262031+01:00"
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 17.8.3
+digest: sha256:0257cc1dd945d2f4df1ec39f8c0a2a7d613105a49832d3925161e0562e9bc632
+generated: "2023-03-09T13:17:48.055246324+01:00"

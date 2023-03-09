@@ -24,3 +24,19 @@ services:
 {{- $secret := dig "data" "APP_SECRET" (randAlphaNum 32 | b64enc) $existingSecret }}
 APP_SECRET: {{ $secret }}
 {{- end -}}
+
+{{- define "repman.repman.config.phpConfig" -}}
+{{- if .Values.redis.enabled -}}
+session.save_path=tcp://{{ include "common.names.releasename" . }}-redis:6379
+{{- end-}}
+{{- range $name, $value := .Values.phpConfig }}
+{{ $name }}=
+{{- if kindIs "string" $value -}}
+  {{- $value | quote -}}
+{{- else if or (kindIs "list" $value) (kindIs "map" $value) -}}
+  {{- fail "lists are not supported for php config" -}}
+{{- else -}}
+  {{- $value -}}
+{{- end -}}
+{{ end }}
+{{- end -}}
