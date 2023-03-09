@@ -1,0 +1,23 @@
+{{- include "common.values.setup" . }}
+{{- include "repman.values.setup" . }}
+---
+apiVersion: acid.zalan.do/v1
+kind: postgresql
+metadata:
+  labels:
+    team: {{ .Values.postgresql.team }}
+    {{- include "common.labels" . | nindent 4 }}
+  name: {{ include "repman.names.postgresql" . }}
+spec:
+  allowedSourceRanges: []
+  enableConnectionPooler: {{ .Values.postgresql.connectionPooler }}
+  numberOfInstances: {{ .Values.postgresql.instances }}
+  postgresql:
+    version: {{ .Values.postgresql.version | toString | quote }}
+  resources: {{ toYaml .Values.postgresql.resources | nindent 4 }}
+  teamId: {{ .Values.postgresql.team }}
+  users:
+    {{ .Values.postgresql.user }}: []
+  volume: {{ toYaml .Values.postgresql.volume | nindent 4}}
+  preparedDatabases:
+    {{ .Values.postgresql.database }}:
