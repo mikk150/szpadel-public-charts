@@ -96,6 +96,12 @@ config:
     secret: ""
   minio:
     enabled: true
+  sshKey: 
+    enabled: false
+    # existingSecret: ""
+    # publicKey: ""
+    # privateKey: ""
+
 perconaOperator:
   enabled: false
   version: 1.2.0

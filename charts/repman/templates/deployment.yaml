@@ -130,6 +130,12 @@ spec:
               mountPath: /app/config/services_prod.yaml
               subPath: services_prod_yaml
               readOnly: true
+            {{- if .Values.config.sshKey.enabled }}
+            - name: sshkey
+              mountPath: /root/.ssh/id-rsa
+              subPath: private
+              readOnly: true
+            {{- end }}
           resources:
             {{- toYaml .Values.repman.resources | nindent 12 }}
         - name: {{ .Chart.Name }}-nginx
@@ -166,6 +172,16 @@ spec:
             name: {{ include "repman.fullname" . }}-files
         - name: public
           emptyDir: {}
+        {{- if .Values.config.sshKey.enabled }}
+        - name: sshkey
+        {{- if .Values.config.sshKey.existingSecret }}
+          secret:
+            secretName: {{ .Values.config.sshKey.existingSecret | quote }}
+        {{- else }}
+          secret:
+            secretName: {{ include "repman.fullname" . }}-sshkey
+        {{- end }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
