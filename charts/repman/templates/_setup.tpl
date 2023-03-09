@@ -37,7 +37,7 @@ configmap:
   {{- if .Release.IsInstall -}}
     {{- $_ := set .Values.additionalControllers.install "enabled" true -}}
     {{- if .Values.createAdmin.enabled -}}
-      {{- $_ := set .Values.additionalControllers.create-admin "enabled" true -}}
+      {{- $_ := set (index . "Values" "additionalControllers" "create-admin") "enabled" true -}}
     {{- end -}}
   {{- else if .Release.IsUpgrade -}}
     {{- $_ := set .Values.additionalControllers.upgrade "enabled" true -}}
