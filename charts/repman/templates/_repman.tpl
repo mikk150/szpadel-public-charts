@@ -28,7 +28,7 @@ APP_SECRET: {{ $secret }}
 {{- define "repman.repman.config.phpConfig" -}}
 {{- if .Values.redis.enabled -}}
 session.save_path=tcp://{{ include "common.names.releasename" . }}-redis:6379
-{{- end-}}
+{{- end -}}
 {{- range $name, $value := .Values.phpConfig }}
 {{ $name }}=
 {{- if kindIs "string" $value -}}
