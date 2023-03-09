@@ -193,7 +193,7 @@ secret:
 
 configmap:
   files:
-    enables: true
+    enabled: true
     data: {} # Data is set from _setup.tpl
 
 service:
