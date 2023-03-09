@@ -29,7 +29,7 @@ configmap:
   {{/* Generate cronjobs */}}
   {{- range .Values.cronJobs -}}
     {{- if .enabled -}}
-      {{- $_ := set $.Values.additionalControllers (printf "cronjob_%v" .name) (include "repman.cronjob" . | fromYaml) -}}
+      {{- $_ := set $.Values.additionalControllers (printf "cronjob-%v" .name) (include "repman.cronjob" . | fromYaml) -}}
     {{- end -}}
   {{- end -}}
 
@@ -37,7 +37,7 @@ configmap:
   {{- if .Release.IsInstall -}}
     {{- $_ := set .Values.additionalControllers.install "enabled" true -}}
     {{- if .Values.createAdmin.enabled -}}
-      {{- $_ := set .Values.additionalControllers.create_admin "enabled" true -}}
+      {{- $_ := set .Values.additionalControllers.create-admin "enabled" true -}}
     {{- end -}}
   {{- else if .Release.IsUpgrade -}}
     {{- $_ := set .Values.additionalControllers.upgrade "enabled" true -}}

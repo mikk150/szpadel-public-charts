@@ -65,7 +65,7 @@ additionalControllers:
       "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     restartPolicy: OnFailure
     command: *install_command
-  create_admin:
+  create-admin:
     enabled: false
     type: job
     annotations:
