@@ -223,7 +223,7 @@ persistence:
     accessMode: ReadWriteMany
     size: 4Gi
     mountPath: /var
-  services_prod:
+  services-prod:
     enabled: true
     mountPath: /app/config/services_prod.yaml
     readOnly: true
